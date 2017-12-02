@@ -9,9 +9,9 @@ import django.utils.timezone as timezone
 
 
 class EditMixin(models.Model):
-    created_by = models.ForeignKey(User, related_name='+')
+    created_by = models.ForeignKey(User, null=True, related_name='+')
     created_on = models.DateTimeField(default=timezone.now)
-    changed_by = models.ForeignKey(User, related_name='+')
+    changed_by = models.ForeignKey(User, null=True, related_name='+')
     changed_on = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -20,10 +20,21 @@ class EditMixin(models.Model):
 
 class Actor(EditMixin):
     name = models.CharField(max_length=256, null=False)
-    sex = models.CharField(max_length=16)
+    MALE = 'MALE'
+    FEMALE = 'FEMALE'
+    OTHER_SXE = 'OTHER'
+    UNKNOWN_SEX = 'UNKNOWN'
+    SEX_CHOICES = (
+        (MALE, '男'),
+        (FEMALE, '女'),
+        (OTHER_SXE, '其他'),
+        (UNKNOWN_SEX, '未知'),
+    )
+    sex = models.CharField(max_length=16, choices=SEX_CHOICES, default=UNKNOWN_SEX)
     birthday = models.DateField(default=timezone.now)
     country = models.CharField(max_length=64)
-    description = models.TextField(default='')
+    description = models.TextField(null=True, max_length=4086)
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -32,7 +43,8 @@ class Actor(EditMixin):
 class Movie(EditMixin):
     name = models.CharField(max_length=256, null=False)
     poster = models.ImageField(null=True)
-    director = models.CharField(max_length=128)
+    directors = models.ManyToManyField(Actor, related_name="director_movies")
+    actors = models.ManyToManyField(Actor, related_name="actor_movies")
     area = models.CharField(max_length=64)
     language = models.CharField(max_length=64)
     type = models.CharField(max_length=64)
@@ -40,17 +52,29 @@ class Movie(EditMixin):
     score = models.FloatField(default=0)
     duration = models.IntegerField(default=0)
     box_office = models.BigIntegerField(default=0)
-    description = models.TextField(default='')
-    actors = models.ManyToManyField(Actor)
+    description = models.TextField(null=True, max_length=4086)
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
 
+    @property
+    def directors_str(self):
+        return str(self.directors)
+
+    @property
+    def actors_str(self):
+        return str(self.actors)
+
 
 class Comment(EditMixin):
-    user_id = models.ForeignKey(User)
-    movie_id = models.ForeignKey(Movie)
-    content = models.TextField(default='')
+    user_id = models.ForeignKey(User, related_name="user_comments")
+    movie_id = models.ForeignKey(Movie, related_name="movie_comments")
+    content = models.TextField(default='', max_length=1024)
+
+    @property
+    def part_content(self):
+        return str(self.content[:32])
 
 
 class Favorite(EditMixin):

@@ -82,7 +82,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'love_movie',
+#         'NAME': 'love_movies',
 #         'HOST': 'localhost',
 #         'PORT': '3306',
 #         'USER': 'root',
