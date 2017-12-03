@@ -81,10 +81,10 @@ class Migration(migrations.Migration):
                 ('box_office', models.BigIntegerField(default=0)),
                 ('description', models.TextField(blank=True, max_length=4086, null=True)),
                 ('is_deleted', models.BooleanField(default=False)),
-                ('actors', models.ManyToManyField(related_name='actor_movies', to='movie_app.Actor')),
+                ('actors', models.ManyToManyField(related_name='actor_movies', to='movie.Actor')),
                 ('changed_by', models.ForeignKey(blank=True, null=True, on_delete=models.SET(None), related_name='+', to=settings.AUTH_USER_MODEL)),
                 ('created_by', models.ForeignKey(blank=True, null=True, on_delete=models.SET(None), related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('directors', models.ManyToManyField(related_name='director_movies', to='movie_app.Actor')),
+                ('directors', models.ManyToManyField(related_name='director_movies', to='movie.Actor')),
             ],
             options={
                 'abstract': False,
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='favorite',
             name='movie',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movie_app.Movie'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movie.Movie'),
         ),
         migrations.AddField(
             model_name='favorite',
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='movie',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='movie_comments', to='movie_app.Movie'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='movie_comments', to='movie.Movie'),
         ),
         migrations.AddField(
             model_name='comment',
