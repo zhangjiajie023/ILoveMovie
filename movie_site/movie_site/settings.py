@@ -25,8 +25,9 @@ SECRET_KEY = '3dd=vksf23wg0ehg3y6p2pmo&m1*c%i56!gpb=w8c40hj8ofix'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+# AUTH_USER_MODEL = 'movie_app.User'
 
 # Application definition
 
@@ -76,7 +77,7 @@ WSGI_APPLICATION = 'movie_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'love_movie.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'movie.sqlite3'),
     }
 }
 # DATABASES = {
