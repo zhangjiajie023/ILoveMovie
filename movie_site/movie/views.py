@@ -45,3 +45,4 @@ def comments(request):
     for one in query.all():
         data.append(one.data)
     return HttpResponse(json.dumps(data, ensure_ascii=False))
+
