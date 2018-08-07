@@ -15,6 +15,7 @@ class MovieAdmin(admin.ModelAdmin, SaveModelMixin):
               'release_date', 'box_office']
     list_display = ('name', 'directors_str', 'area', 'type', 'score', 'release_date')
 
+
 admin.site.register(Movie, MovieAdmin)
 
 
@@ -22,11 +23,13 @@ class ActorAdmin(admin.ModelAdmin, SaveModelMixin):
     fields = ['name', 'sex', 'birthday', 'country', 'description']
     list_display = ('name', 'sex', 'birthday', 'country')
 
+
 admin.site.register(Actor, ActorAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin, SaveModelMixin):
     fields = ['user_id', 'movie_id', 'content']
     list_display = ('user_id', 'movie_id', 'part_content')
+
 
 admin.site.register(Comment, CommentAdmin)

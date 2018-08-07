@@ -39,6 +39,16 @@ class Actor(EditMixin):
     def __str__(self):
         return self.name
 
+    @property
+    def data(self):
+        return {
+            'name': self.name,
+            'sex': self.sex,
+            'birthday': str(self.birthday),
+            'country': self.country,
+            'description': self.description
+        }
+
 
 class Movie(EditMixin):
     name = models.CharField(max_length=256, null=False)
@@ -66,6 +76,21 @@ class Movie(EditMixin):
     def actors_str(self):
         return str(self.actors)
 
+    @property
+    def data(self):
+        return {
+            'name': self.name,
+            'directors': self.directors_str,
+            'actors': self.actors_str,
+            'area': self.area,
+            'language': self.language,
+            'type': self.type,
+            'score': self.score,
+            'duration': self.duration,
+            'box_office': self.box_office,
+            'description': self.description
+        }
+
 
 class Comment(EditMixin):
     user_id = models.ForeignKey(User, related_name="user_comments")
@@ -75,6 +100,14 @@ class Comment(EditMixin):
     @property
     def part_content(self):
         return str(self.content[:32])
+
+    @property
+    def data(self):
+        return {
+            'user_id': self.user_id,
+            'movie_id': self.movie_id,
+            'content': self.content
+        }
 
 
 class Favorite(EditMixin):
