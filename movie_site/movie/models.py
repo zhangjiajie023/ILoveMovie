@@ -1,18 +1,27 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User, AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.db.models import deletion
 import django.utils.timezone as timezone
 
 
-# class User(AbstractBaseUser):
-#     username = models.CharField(max_length=128, unique=True)
-#     email = models.EmailField(blank=True, null=True)
-#     telephone = models.CharField(max_length=16, blank=True, null=True)
-#     is_admin = models.BooleanField('Can visit /admin', default=False)
-#     is_superuser = models.BooleanField('Has all permissions', default=False)
+class User(AbstractBaseUser):
+    username = models.CharField(max_length=128, unique=True)
+    email = models.EmailField(blank=True, null=True)
+    telephone = models.CharField(max_length=16, blank=True, null=True)
+    is_admin = models.BooleanField('Can visit /admin', default=False)
+    is_superuser = models.BooleanField('Has all permissions', default=False)
+
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'telephone': self.telephone
+        }
 
 
 class EditMixin(models.Model):
@@ -52,6 +61,7 @@ class Actor(EditMixin):
     @property
     def data(self):
         return {
+            'id': self.id,
             'name': self.name,
             'sex': self.sex,
             'birthday': str(self.birthday),
@@ -89,6 +99,7 @@ class Movie(EditMixin):
     @property
     def data(self):
         return {
+            'id': self.id,
             'name': self.name,
             'directors': self.directors_str,
             'actors': self.actors_str,
@@ -114,8 +125,9 @@ class Comment(EditMixin):
     @property
     def data(self):
         return {
-            'user_id': self.user_id,
-            'movie_id': self.movie_id,
+            'id': self.id,
+            'user_id': self.user.id,
+            'movie_id': self.movie.id,
             'content': self.content
         }
 

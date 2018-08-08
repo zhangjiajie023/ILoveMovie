@@ -2,12 +2,13 @@
 
 from django.conf.urls import url
 
-from .views import index, movies, actors, comments
+from . import views
 
-urlpatterns = {
-    url('index', index),
-    url('movies', movies),
-    url('actors', actors),
-    url('comments', comments),
-}
+urlpatterns = [
+    url('', views.index),
+    url('index/', views.index),
+    url('movies/', views.get_movies),
+    url('actors/', views.get_actors),
+    url('comments/', views.get_comments),
+]
 
